@@ -1,61 +1,102 @@
 class Rover {
-  constructor (x, y, orientation) {
-    this.position = {
-      x: x,
-      y: y,
-      orientation: orientation
+    constructor (x, y, orientation) {
+        this.position = {
+            x: x,
+            y: y,
+            orientation: orientation
+        };
     }
-  }
 
-  move (commands) {
-    commands.forEach((command) => {
-      var commandRules = {
-        f: this.forward,
-        b: this.backward,
-        l: this.left,
-        r: this.right
-      }
+    move (commands) {
+        commands.forEach((command) => {
+            var commandRules = {
+                f: this.forward,
+                b: this.backward,
+                l: this.left,
+                r: this.right
+            };
 
-      commandRules[command].call(this)
-    })
+            commandRules[command].call(this);
+        });
 
-    return 'ok'
-  }
+        return 'ok';
+    }
 
-  left () {
-    this.position.orientation = 'S'
-  }
+    changeToApply (changesMap){
+        let currentOrientation = this.position.orientation;
+        let changeToApply = changesMap[currentOrientation];
+        return changeToApply;
+    }
 
-  right () {
-    this.position.orientation = 'N'
-  }
+    left () {
+        let orientationChanges = {
+            N: 'W',
+            S: 'E',
+            E: 'N',
+            W: 'S'
+        };
+        this.position.orientation = this.changeToApply(orientationChanges);
 
-  forward () {
-    if (this.position.orientation == 'N')
-      this.position.y++
+    }
 
-    if (this.position.orientation == 'S')
-      this.position.y--
+    right () {
+        let orientationChanges = {
+            N: 'E',
+            S: 'W',
+            E: 'S',
+            W: 'N'
+        };
+        this.position.orientation = this.changeToApply(orientationChanges);
 
-    if (this.position.orientation == 'E')
-      this.position.x++
+    }
 
-    if (this.position.orientation == 'W')
-      this.position.x--
-  }
+    forward () {
+        let positionChanges = {
+            N: {
+                coord: 'y',
+                delta: 1
+            },
+            S: {
+                coord: 'y',
+                delta: -1
+            },
+            E: {
+                coord: 'x',
+                delta: 1
+            },
+            W: {
+                coord: 'x',
+                delta: -1
+            }
+        };
 
-  backward () {
-    if (this.position.orientation == 'N')
-      this.position.y--
+        let change = this.changeToApply(positionChanges);
+        this.position[change.coord] += change.delta;
+    }
 
-    if (this.position.orientation == 'S')
-      this.position.y++
 
-    if (this.position.orientation == 'E')
-      this.position.x--
+    backward () {
 
-    if (this.position.orientation == 'W')
-      this.position.x++
-  }
+        let positionChanges = {
+            N: {
+                coord: 'y',
+                delta: -1
+            },
+            S: {
+                coord: 'y',
+                delta: 1
+            },
+            E: {
+                coord: 'x',
+                delta: -1
+            },
+            W: {
+                coord: 'x',
+                delta: 1
+            }
+        };
+        let change = this.changeToApply(positionChanges);
+        this.position[change.coord] += change.delta;
+    }
 
 }
