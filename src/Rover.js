@@ -1,10 +1,11 @@
 class Rover {
-    constructor (x, y, orientation) {
+    constructor (x, y, orientation, planet) {
         this.position = {
             x: x,
             y: y,
             orientation: orientation
         };
+        this.planet = planet;
     }
 
     move (commands) {

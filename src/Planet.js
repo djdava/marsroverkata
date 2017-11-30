@@ -4,9 +4,5 @@ class Planet {
             h: h,
             w: w
         };
-        this.roverPosition = {
-            x: 1,
-            y: 1
-        };
     }
 }

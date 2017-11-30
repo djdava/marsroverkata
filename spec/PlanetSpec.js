@@ -21,12 +21,4 @@ describe("Planet", () => {
             w: 20
         });
     });
-
-    it('has a initial rover position', () => {
-        expect(planet.roverPosition).toEqual({
-            x:1,
-            y:1
-        });
-    });
-
 });

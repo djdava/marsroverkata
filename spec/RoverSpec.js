@@ -1,5 +1,6 @@
 describe("Rover", () => {
     var rover;
+    var planet;
     beforeEach(() =>{
         rover = new Rover(1, 1, 'W');
     });
@@ -25,7 +26,7 @@ describe("Rover", () => {
     it('accepts an array of commands', () =>{
         var result = rover.move(['f', 'l']);
 
-        expect(result).toEqual('ok');
+        expect(result).toEqual('ok'); // Esto no pinta nada ya, hay que dejarlo ???
     });
 
     it('can move forward', () =>{
@@ -116,5 +117,12 @@ describe("Rover", () => {
             y: 1,
             orientation: 'E'
         });
+    });
+
+    it('is on a planet', () => {
+        planet = new Planet(10, 10);
+        rover = new Rover(1, 1, 'W', planet);
+
+        expect(rover.planet instanceof Planet).toEqual(true);
     });
 });
