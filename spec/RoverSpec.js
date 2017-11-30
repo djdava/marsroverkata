@@ -1,6 +1,5 @@
 describe("Rover", () => {
     var rover;
-    ()
     beforeEach(() =>{
         rover = new Rover(1, 1, 'W');
     });
