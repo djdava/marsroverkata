@@ -1,8 +1,8 @@
 class Planet {
-    constructor (h, w){
+    constructor (w, h){
         this.grid = {
-            h: h,
-            w: w
+            h: h, // y axes
+            w: w  // x axes
         };
     }
 }

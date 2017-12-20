@@ -2,7 +2,8 @@ describe("Rover", () => {
     var rover;
     var planet;
     beforeEach(() =>{
-        rover = new Rover(1, 1, 'W');
+        planet = new Planet(10, 10);
+        rover = new Rover(1, 1, 'W', planet);
     });
 
     it('stays in the initial position', () =>{
@@ -26,7 +27,7 @@ describe("Rover", () => {
     it('accepts an array of commands', () =>{
         var result = rover.move(['f', 'l']);
 
-        expect(result).toEqual('ok'); // Esto no pinta nada ya, hay que dejarlo ???
+        expect(result).toEqual('ok');
     });
 
     it('can move forward', () =>{
@@ -120,9 +121,61 @@ describe("Rover", () => {
     });
 
     it('is on a planet', () => {
-        planet = new Planet(10, 10);
-        rover = new Rover(1, 1, 'W', planet);
-
         expect(rover.planet instanceof Planet).toEqual(true);
+    });
+
+    it('can move beyond the planet lower edge', () => {
+        rover.move(['l', 'f', 'f']);
+
+        expect(rover.position).toEqual({
+            x: 1,
+            y: 9,
+            orientation: 'S'
+        });
+    });
+
+    it('can move beyond the planet upper edge', () => {
+        rover = new Rover(1, 9, 'N', planet);
+        rover.move(['f']);
+
+        expect(rover.position).toEqual({
+            x: 1,
+            y: 0,
+            orientation: 'N'
+        });
+    });
+
+    it('can move backward beyond the planet upper edge', () => {
+        rover.move(['r', 'b', 'b']);
+
+        expect(rover.position).toEqual({
+            x: 1,
+            y: 9,
+            orientation: 'N'
+        });
+    });
+
+    it('can move forward beyond the planet west edge', () => {
+        planet = new Planet(5, 10);
+        rover = new Rover(1, 1, 'W', planet);
+        rover.move(['f', 'f']);
+
+        expect(rover.position).toEqual({
+            x: 4,
+            y: 1,
+            orientation: 'W'
+        });
+    });
+
+    it('can move forward beyond the planet east edge', () => {
+        planet = new Planet(5, 10);
+        rover = new Rover(4, 1, 'E', planet);
+        rover.move(['f', 'f']);
+
+        expect(rover.position).toEqual({
+            x: 1,
+            y: 1,
+            orientation: 'E'
+        });
     });
 });

@@ -23,10 +23,36 @@ class Rover {
         return 'ok';
     }
 
+    wrapEdges (destinationPosition){
+        let wrapMap = {
+            N: 'h',
+            S: 'h',
+            W: 'w',
+            E: 'w'
+        };
+
+        let coord = wrapMap[this.position.orientation];
+
+        if (destinationPosition < 0)
+            destinationPosition += this.planet.grid[coord];
+
+        if (destinationPosition > this.planet.grid[coord] - 1)
+            destinationPosition = 0;
+
+        return destinationPosition;
+    }
+
     changeToApply (changesMap){
         let currentOrientation = this.position.orientation;
-        let changeToApply = changesMap[currentOrientation];
-        return changeToApply;
+        let change = changesMap[currentOrientation];
+
+        let destinationPosition = this.position[change.coord] + change.delta;
+        destinationPosition = this.wrapEdges(destinationPosition);
+
+        if (change.delta)
+            change.destinationPosition = destinationPosition;
+
+        return change;
     }
 
     left () {
@@ -72,7 +98,7 @@ class Rover {
         };
 
         let change = this.changeToApply(positionChanges);
-        this.position[change.coord] += change.delta;
+        this.position[change.coord] = change.destinationPosition;
     }
 
 
@@ -97,7 +123,7 @@ class Rover {
             }
         };
         let change = this.changeToApply(positionChanges);
-        this.position[change.coord] += change.delta;
+        this.position[change.coord] = change.destinationPosition;
     }
 
 }
