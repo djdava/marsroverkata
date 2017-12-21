@@ -27,7 +27,7 @@ describe("Rover", () => {
     it('accepts an array of commands', () =>{
         var result = rover.move(['f', 'l']);
 
-        expect(result).toEqual('ok');
+        expect(result).toEqual('Rover move at position: (0,1)');
     });
 
     it('can move forward', () =>{
@@ -178,4 +178,30 @@ describe("Rover", () => {
             orientation: 'E'
         });
     });
+
+    it('can detect obstacle', () => {
+        planet.createObstacle(5,5);
+        rover = new Rover(7, 5, 'W', planet);
+        var result1 = rover.move(['f']);
+
+        expect(result1).toEqual('Rover move at position: (6,5)');
+
+        var result2 = rover.move(['f']);
+
+        expect(result2).toEqual('Obstacle detected at position: (5,5)');
+    });
+
+    it('cannot cross obstacles ', () => {
+        planet.createObstacle(5,5);
+        rover = new Rover(6, 5, 'W', planet);
+        rover.move(['f']);
+
+        expect(rover.position).toEqual({
+            x: 6,
+            y: 5,
+            orientation: 'W'
+        });
+    });
+
+    it('cannot cross obstacles by multiples directions');
 });

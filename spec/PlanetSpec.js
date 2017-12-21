@@ -21,4 +21,15 @@ describe("Planet", () => {
             w: 20
         });
     });
+
+    it('can create obstacle', () => {
+        planet.createObstacle();
+
+        expect(planet.obstacles).toEqual({
+            0: {
+                x: -1,
+                y: -1
+            }
+        });
+    });
 });

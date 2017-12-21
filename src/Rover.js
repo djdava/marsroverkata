@@ -6,6 +6,7 @@ class Rover {
             orientation: orientation
         };
         this.planet = planet;
+
     }
 
     move (commands) {
@@ -20,7 +21,21 @@ class Rover {
             commandRules[command].call(this);
         });
 
-        return 'ok';
+        return this.detectObstacles();
+    }
+
+    detectObstacles (){
+        let obstacleX = this.planet.obstacles[0].x;
+        let obstacleY = this.planet.obstacles[0].y;
+        let positionX = this.position.x;
+        let positionY = this.position.y;
+
+        if (this.position.x != obstacleX){
+            return `Rover move at position: (${positionX},${positionY})`;
+        }else {
+            this.position.x += 1;
+            return `Obstacle detected at position: (${obstacleX},${obstacleY})`;
+        }
     }
 
     wrapEdges (destinationPosition){
@@ -51,6 +66,7 @@ class Rover {
 
         if (change.delta)
             change.destinationPosition = destinationPosition;
+
 
         return change;
     }
